@@ -1,16 +1,26 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
+import {
+  COOKIE_PRIVACY_POLICY_LINK,
+  ACCEPT_EVERYTHING_BUTTON,
+  VERIVOX_ICON,
+} from "../e2e/pages/Cookies";
+Cypress.Commands.add("acceptCookies", () => {
+  cy.get(COOKIE_PRIVACY_POLICY_LINK).should("be.visible");
+  cy.get(COOKIE_PRIVACY_POLICY_LINK)
+    .eq(0)
+    .invoke("show")
+    .trigger("mouseover")
+    .click();
+
+  cy.get(ACCEPT_EVERYTHING_BUTTON).should("be.visible");
+  cy.get(ACCEPT_EVERYTHING_BUTTON)
+    .eq(0)
+    .invoke("show")
+    .wait(3000)
+    .focus()
+    .click({ force: true });
+
+  cy.get(VERIVOX_ICON).click({ force: true });
+});
 //
 //
 // -- This is a child command --

@@ -8,6 +8,6 @@ module.exports = defineConfig({
     baseUrl: "https://www.verivox.de/",
     // testFiles: "**/*.{feature,features}",
     specPattern: "cypress/e2e/integration/**/*.js",
-    // chromeWebSecurity: false
+    //chromeWebSecurity: false,
   },
 });
