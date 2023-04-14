@@ -1,0 +1,18 @@
+{
+  "name": "verivox_cypress",
+  "version": "1.0.0",
+  "description": "Automation with Cypress",
+  "main": "index.js",
+  "scripts": {
+    "test": "cypress run"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "cypress": "^12.9.0",
+    "cypress-cucumber-preprocessor": "^4.3.1"
+  },
+  "cypress-cucumber-preprocessor": {
+    "nonGlobalStepDefinitions": true
+}
+}
