@@ -15,6 +15,7 @@ import {
   COMPARE_NOW_TEXT,
   COMPARE_NOW_BUTTON,
   TARIFF_RESULT_ROUTE,
+  TARIFF_CARDS_LIST,
 } from "../e2e/pages/DslCalculator";
 
 Cypress.Commands.add("acceptCookies", () => {
@@ -54,6 +55,7 @@ Cypress.Commands.add("getTariffSearchResults", () => {
     cy.get(POSTAL_CODE).type(postal_code);
     cy.get(COMPARE_NOW_BUTTON).wait(3000).click({ force: true });
     cy.url().should("include", TARIFF_RESULT_ROUTE);
+    cy.get(TARIFF_CARDS_LIST, { timeout: 30000 });
   });
 });
 //

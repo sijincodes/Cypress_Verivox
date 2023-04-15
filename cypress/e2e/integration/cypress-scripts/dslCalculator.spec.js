@@ -5,10 +5,18 @@ import {
   LOAD_20TARIFFS_MORE_BUTTON,
   LOAD_ALL_TARIFFS_BUTTON,
 } from "../../pages/TariffResultPage";
+import {
+  TARIFF_DETAILS_SECTION_ITEMS_TITLE,
+  SELECTED_TARIFF_PRICE,
+  TARIFF_DETAILS_BUTTON,
+  TARIFF_DETAILS_SECTION_ITEMS_LIST,
+  TARIFF_GO_TO_ONLINE_APPLICATION_BUTTON,
+} from "../../pages/TariffDetail";
 describe("Verify the DSL Calculator", () => {
   beforeEach(() => {
     cy.visit(Cypress.config().baseUrl);
     cy.acceptCookies();
+    cy.intercept("GET", TARIFF_RESULT_API).as("tariff_result_api");
   });
 
   it("Verify for Privathaftpflicht calculator with Single ohne Kinder category, minimun 5 tariffs are displayed", () => {
@@ -18,10 +26,8 @@ describe("Verify the DSL Calculator", () => {
       .should("be.gte", 5);
   });
 
-  it.only("Validate the multiple tariff Result List page are loaded", () => {
-    cy.intercept("GET", TARIFF_RESULT_API).as("tariff_result_api");
+  it("Validate the multiple tariff Result List page are loaded", () => {
     cy.getTariffSearchResults();
-    cy.get(TARIFF_CARDS_LIST, { timeout: 30000 });
 
     cy.wait("@tariff_result_api").then((res) => {
       if (res.response.statusCode === 200) {
@@ -52,5 +58,37 @@ describe("Verify the DSL Calculator", () => {
     });
 
     cy.get(LOAD_20TARIFFS_MORE_BUTTON).should("not.exist");
+  });
+
+  it("Verify offer details for a selected tariff", () => {
+    cy.fixture("tariffDetail").then((selectedTariff) => {
+      const onlineApplicationButtonText =
+        selectedTariff.onlineApplicationButtonText;
+      cy.getTariffSearchResults();
+
+      cy.wait("@tariff_result_api").then((res) => {
+        if (res.response.statusCode === 200) {
+          cy.wrap(res.response.body.offers[0].prices[12]).as(
+            "selected_tariff_price"
+          );
+        }
+      });
+      cy.get("@selected_tariff_price").then((price) => {
+        let newPrice = String(price).replace(".", ",");
+        cy.get(SELECTED_TARIFF_PRICE).should("include.text", newPrice);
+      });
+      cy.get(TARIFF_DETAILS_BUTTON).click();
+
+      cy.get(TARIFF_DETAILS_SECTION_ITEMS_LIST).each((item, index) => {
+        cy.wrap(item).should(
+          "contain.text",
+          TARIFF_DETAILS_SECTION_ITEMS_TITLE[index]
+        );
+      });
+      cy.get(TARIFF_GO_TO_ONLINE_APPLICATION_BUTTON).should(
+        "have.text",
+        onlineApplicationButtonText
+      );
+    });
   });
 });
