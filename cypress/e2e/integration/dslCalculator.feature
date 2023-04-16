@@ -24,8 +24,7 @@ Feature: Privathaftpflicht calculator and its tariff search pages functionality
   Scenario: Verify offer details for a selected tariff
    Given    User is at the 'Privathaftpflicht' tariff Result List page  
     Then    User should see the tariff price of the first tariff
-    Then    User should see the 'ZUM ONLINE-ANTRAG' button
     When    User clicks on the button labeled 'TarifDetails'
     Then    User should see tariff details sections: 'Weitere Leistungen', 'Allgemein','Tätigkeiten und Hobbys','Miete & Immobilien' and 'Dokumente'
-    
+    Then    User should see the 'ZUM ONLINE-ANTRAG' button
      

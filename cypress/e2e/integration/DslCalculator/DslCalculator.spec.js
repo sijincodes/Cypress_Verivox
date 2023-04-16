@@ -152,16 +152,7 @@ Then("User should see the tariff price of the first tariff", () => {
     cy.get(SELECTED_TARIFF_PRICE_TEXT).should("include.text", tariffPrice);
   });
 });
-Then("User should see the 'ZUM ONLINE-ANTRAG' button", () => {
-  cy.fixture("tariffDetail").then((selectedTariff) => {
-    const onlineApplicationButtonText =
-      selectedTariff.onlineApplicationButtonText;
-    cy.get(TARIFF_GO_TO_ONLINE_APPLICATION_BUTTON).should(
-      "have.text",
-      onlineApplicationButtonText
-    );
-  });
-});
+
 When("User clicks on the button labeled 'TarifDetails'", () => {
   cy.get(TARIFF_DETAILS_BUTTON).click();
 });
@@ -176,4 +167,13 @@ Then(
     });
   }
 );
-
+Then("User should see the 'ZUM ONLINE-ANTRAG' button", () => {
+  cy.fixture("tariffDetail").then((selectedTariff) => {
+    const onlineApplicationButtonText =
+      selectedTariff.onlineApplicationButtonText;
+    cy.get(TARIFF_GO_TO_ONLINE_APPLICATION_BUTTON).should(
+      "have.text",
+      onlineApplicationButtonText
+    );
+  });
+});

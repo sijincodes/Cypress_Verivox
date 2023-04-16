@@ -4,7 +4,10 @@
   "description": "Automation with Cypress",
   "main": "index.js",
   "scripts": {
-    "test": "cypress run"
+    "cy:run": "cypress run",
+    "cy:open": "cypress open",
+    "cy:npm-build": "npm install",
+    "cy:yarn-build": "yarn install"
   },
   "author": "",
   "license": "ISC",
@@ -15,6 +18,11 @@
   },
   "cypress-cucumber-preprocessor": {
     "nonGlobalStepDefinitions": false,
-    "stepDefinitions": "cypress/e2e/**/**/*.js"
+    "stepDefinitions": "cypress/e2e/**/**/*.js",
+    "html": {
+      "enabled": true,
+      "output": "html-reports/report.html"
+    }
   }
+
 }
