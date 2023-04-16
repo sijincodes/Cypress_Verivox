@@ -1,11 +1,9 @@
 import {
-  Before,
   Given,
   When,
   And,
   Then,
-} from "cypress-cucumber-preprocessor/steps";
-
+} from "@badeball/cypress-cucumber-preprocessor";
 import {
   TARIFF_RESULT_API,
   TOTAL_TARIFFS_AVAILABLE_TEXT,
@@ -33,7 +31,7 @@ import {
   TARIFF_RESULT_ROUTE,
   TARIFF_CARDS_LIST,
 } from "../../pages/DslCalculator";
-Before(() => {
+beforeEach(() => {
   cy.visit(Cypress.config().baseUrl);
   cy.acceptCookies();
   cy.intercept("GET", TARIFF_RESULT_API).as("tariff_result_api");
@@ -46,7 +44,7 @@ When(
     cy.url().should("include", PRIVATHAFTPFLICHT_PAGE_URL);
   }
 );
-And("User enters the age '18' and 'Single ohne Kinder'", () => {
+Then("User enters the age '18' and 'Single ohne Kinder'", () => {
   cy.fixture("user").then((user) => {
     const maritalStatusOption = user.maritalStatusOption;
     const age = user.age;
@@ -62,7 +60,7 @@ Then(
     cy.url().should("include", PRIVATHAFTPFLICHT_CALCULATOR_URL);
   }
 );
-And("User enters the birthdate '4'", () => {
+When("User enters the birthdate '4'", () => {
   cy.fixture("user").then((user) => {
     const birth_day = user.birth_day;
 
@@ -70,14 +68,14 @@ And("User enters the birthdate '4'", () => {
     cy.contains(SELECTED_DAY, birth_day).click();
   });
 });
-And("User enters the zip code '13088'", () => {
+When("User enters the zip code '13088'", () => {
   cy.fixture("user").then((user) => {
     const postal_code = user.postal_code;
 
     cy.get(POSTAL_CODE).type(postal_code);
   });
 });
-And("User clicks the 'Jetzt vergleichen' button", () => {
+When("User clicks the 'Jetzt vergleichen' button", () => {
   cy.get(COMPARE_NOW_BUTTON).wait(3000).click({ force: true });
 });
 Then(
