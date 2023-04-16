@@ -7,7 +7,7 @@ import {
 } from "../../pages/TariffResultPage";
 import {
   TARIFF_DETAILS_SECTION_ITEMS_TITLE,
-  SELECTED_TARIFF_PRICE,
+  SELECTED_TARIFF_PRICE_TEXT,
   TARIFF_DETAILS_BUTTON,
   TARIFF_DETAILS_SECTION_ITEMS_LIST,
   TARIFF_GO_TO_ONLINE_APPLICATION_BUTTON,
@@ -50,7 +50,6 @@ describe("Verify the DSL Calculator", () => {
       .its("length")
       .should("eq", 40);
     cy.get(LOAD_ALL_TARIFFS_BUTTON).click();
-
     cy.get("@total_number_of_tariffs").then((total_number_of_tariffs) => {
       cy.get(TARIFF_CARDS_LIST, { timeout: 30000 })
         .its("length")
@@ -75,7 +74,7 @@ describe("Verify the DSL Calculator", () => {
       });
       cy.get("@selected_tariff_price").then((price) => {
         let tariffPrice = String(price).replace(".", ",");
-        cy.get(SELECTED_TARIFF_PRICE).should("include.text", tariffPrice);
+        cy.get(SELECTED_TARIFF_PRICE_TEXT).should("include.text", tariffPrice);
       });
       cy.get(TARIFF_DETAILS_BUTTON).click();
 

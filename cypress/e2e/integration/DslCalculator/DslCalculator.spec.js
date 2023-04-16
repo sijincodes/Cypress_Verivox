@@ -1,9 +1,4 @@
-import {
-  Given,
-  When,
-  And,
-  Then,
-} from "@badeball/cypress-cucumber-preprocessor";
+import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
 import {
   TARIFF_RESULT_API,
   TOTAL_TARIFFS_AVAILABLE_TEXT,
@@ -12,7 +7,7 @@ import {
 } from "../../pages/TariffResultPage";
 import {
   TARIFF_DETAILS_SECTION_ITEMS_TITLE,
-  SELECTED_TARIFF_PRICE,
+  SELECTED_TARIFF_PRICE_TEXT,
   TARIFF_DETAILS_BUTTON,
   TARIFF_DETAILS_SECTION_ITEMS_LIST,
   TARIFF_GO_TO_ONLINE_APPLICATION_BUTTON,
@@ -37,6 +32,7 @@ beforeEach(() => {
   cy.intercept("GET", TARIFF_RESULT_API).as("tariff_result_api");
 });
 
+//Scenario1
 When(
   "User navigates to 'Versicherungen' and selects 'Privathaftpflicht'",
   () => {
@@ -85,3 +81,99 @@ Then(
     cy.get(TARIFF_CARDS_LIST, { timeout: 30000 });
   }
 );
+
+//Scenario2
+Given("User is on the  'Privathaftpflicht' tariff Result List page", () => {
+  cy.getTariffSearchResults();
+});
+Then(
+  "User should see the total number of available tariffs listed above all the result list",
+  () => {
+    cy.wait("@tariff_result_api").then((res) => {
+      if (res.response.statusCode === 200) {
+        cy.get(TOTAL_TARIFFS_AVAILABLE_TEXT).should(
+          "contain.text",
+          res.response.body.meta.pagination.total
+        );
+
+        cy.wrap(res.response.body.meta.pagination.total).as(
+          "total_number_of_tariffs"
+        );
+      }
+    });
+  }
+);
+Then(
+  "User should see only the first 20 tariffs displayed on the screen",
+  () => {
+    cy.get(TARIFF_CARDS_LIST, { timeout: 30000 })
+      .its("length")
+      .should("eq", 20);
+  }
+);
+When("User clicks on the button labeled '20 Weitere Tarife Laden'", () => {
+  cy.get(LOAD_20TARIFFS_MORE_BUTTON).click({ true: false });
+});
+Then("User should see also the next 20 tariffs displayed", () => {
+  cy.get(TARIFF_CARDS_LIST, { timeout: 30000 }).its("length").should("eq", 40);
+});
+When(
+  "User clicks on button labeled 'Alle Tarife laden' to load any additional tariffs until all tariffs have been displayed",
+  () => {
+    cy.get(LOAD_ALL_TARIFFS_BUTTON).click();
+    cy.get("@total_number_of_tariffs").then((total_number_of_tariffs) => {
+      cy.get(TARIFF_CARDS_LIST, { timeout: 30000 })
+        .its("length")
+        .should("eq", total_number_of_tariffs);
+    });
+  }
+);
+Then(
+  "User should not be able to see the button labeled '20 Weitere Tarife Laden'",
+  () => {
+    cy.get(LOAD_20TARIFFS_MORE_BUTTON).should("not.exist");
+  }
+);
+
+//Scenario3
+Given("User is at the 'Privathaftpflicht' tariff Result List page", () => {
+  cy.getTariffSearchResults();
+});
+Then("User should see the tariff price of the first tariff", () => {
+  cy.wait("@tariff_result_api").then((res) => {
+    if (res.response.statusCode === 200) {
+      cy.wrap(res.response.body.offers[0].prices[12]).as(
+        "selected_tariff_price"
+      );
+    }
+  });
+  cy.get("@selected_tariff_price").then((price) => {
+    let tariffPrice = String(price).replace(".", ",");
+    cy.get(SELECTED_TARIFF_PRICE_TEXT).should("include.text", tariffPrice);
+  });
+});
+Then("User should see the 'ZUM ONLINE-ANTRAG' button", () => {
+  cy.fixture("tariffDetail").then((selectedTariff) => {
+    const onlineApplicationButtonText =
+      selectedTariff.onlineApplicationButtonText;
+    cy.get(TARIFF_GO_TO_ONLINE_APPLICATION_BUTTON).should(
+      "have.text",
+      onlineApplicationButtonText
+    );
+  });
+});
+When("User clicks on the button labeled 'TarifDetails'", () => {
+  cy.get(TARIFF_DETAILS_BUTTON).click();
+});
+Then(
+  "User should see tariff details sections: 'Weitere Leistungen', 'Allgemein','Tätigkeiten und Hobbys','Miete & Immobilien' and 'Dokumente'",
+  () => {
+    cy.get(TARIFF_DETAILS_SECTION_ITEMS_LIST).each((item, index) => {
+      cy.wrap(item).should(
+        "contain.text",
+        TARIFF_DETAILS_SECTION_ITEMS_TITLE[index]
+      );
+    });
+  }
+);
+

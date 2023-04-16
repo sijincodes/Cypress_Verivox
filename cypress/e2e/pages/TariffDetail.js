@@ -5,7 +5,7 @@ export const TARIFF_DETAILS_SECTION_ITEMS_TITLE = [
   "Miete & Im­mo­bi­li­en",
   "Do­kumen­te",
 ];
-export const SELECTED_TARIFF_PRICE =
+export const SELECTED_TARIFF_PRICE_TEXT =
   "div:nth-child(1) > product:nth-child(1) section > div > div > div.product-group.product-group-action > div.seal-price > div.group-price > div.price";
 export const TARIFF_DETAILS_BUTTON =
   "div:nth-child(1) > product:nth-child(1) > section > div > div > div.product-group.product-group-action > div.cta > button.button-toggle";
