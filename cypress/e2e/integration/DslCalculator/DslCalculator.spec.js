@@ -11,6 +11,7 @@ import {
   TARIFF_DETAILS_BUTTON,
   TARIFF_DETAILS_SECTION_ITEMS_LIST,
   TARIFF_GO_TO_ONLINE_APPLICATION_BUTTON,
+  TARIFF_DETAILS_BUTTON_LIST,
 } from "../../pages/TariffDetail";
 import {
   PRIVATHAFTPFLICHT_LINK,
@@ -23,7 +24,7 @@ import {
   POSTAL_CODE,
   COMPARE_NOW_TEXT,
   COMPARE_NOW_BUTTON,
-  TARIFF_RESULT_ROUTE,
+  TARIFF_RESULT_URL,
   TARIFF_CARDS_LIST,
 } from "../../pages/DslCalculator";
 beforeEach(() => {
@@ -75,9 +76,9 @@ When("User clicks the 'Jetzt vergleichen' button", () => {
   cy.get(COMPARE_NOW_BUTTON).wait(3000).click({ force: true });
 });
 Then(
-  "User should see a page that lists the available tariffs for selection with minimum 5 tariffs displayed",
+  "User should be navigated to  tariff result page with minimum 5 tariffs displayed",
   () => {
-    cy.url().should("include", TARIFF_RESULT_ROUTE);
+    cy.url().should("include", TARIFF_RESULT_URL);
     cy.get(TARIFF_CARDS_LIST, { timeout: 30000 });
   }
 );
@@ -177,3 +178,11 @@ Then("User should see the 'ZUM ONLINE-ANTRAG' button", () => {
     );
   });
 });
+Then(
+  "User should be able to see two 'ZUM ONLINE-ANTRAN' buttons for the selected tarrif",
+  () => {
+    cy.get(TARIFF_DETAILS_BUTTON_LIST)
+      .filter(':contains("Zum Online-Antrag")')
+      .should("have.length", 2);
+  }
+);

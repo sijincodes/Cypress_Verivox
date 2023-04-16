@@ -14,7 +14,7 @@ import {
   POSTAL_CODE,
   COMPARE_NOW_TEXT,
   COMPARE_NOW_BUTTON,
-  TARIFF_RESULT_ROUTE,
+  TARIFF_RESULT_URL,
   TARIFF_CARDS_LIST,
 } from "../e2e/pages/DslCalculator";
 
@@ -54,7 +54,7 @@ Cypress.Commands.add("getTariffSearchResults", () => {
     cy.contains(SELECTED_DAY, birth_day).click();
     cy.get(POSTAL_CODE).type(postal_code);
     cy.get(COMPARE_NOW_BUTTON).wait(3000).click({ force: true });
-    cy.url().should("include", TARIFF_RESULT_ROUTE);
+    cy.url().should("include", TARIFF_RESULT_URL);
     cy.get(TARIFF_CARDS_LIST, { timeout: 30000 });
   });
 });

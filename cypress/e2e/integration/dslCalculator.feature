@@ -3,8 +3,6 @@ Feature: Privathaftpflicht calculator and its tariff search pages functionality
     I want to use the Privathaftpflicht calculator and view its tariff search pages
     I want to select the best available tariff based on price
 
-  # Background: 
-  #   Given   User opens "www.verivox.de"
   Scenario: Verify the DSL calculator
     When    User navigates to 'Versicherungen' and selects 'Privathaftpflicht'
     Then    User enters the age '18' and 'Single ohne Kinder'
@@ -12,7 +10,7 @@ Feature: Privathaftpflicht calculator and its tariff search pages functionality
     When    User enters the birthdate '4'
     When    User enters the zip code '13088'
     When    User clicks the 'Jetzt vergleichen' button
-    When    User should see a page that lists the available tariffs for selection with minimum 5 tariffs displayed 
+    Then    User should be navigated to  tariff result page with minimum 5 tariffs displayed
   Scenario: Validate the multiple tariff Result List page are loaded
     Given   User is on the  'Privathaftpflicht' tariff Result List page
     Then    User should see the total number of available tariffs listed above all the result list
@@ -27,4 +25,6 @@ Feature: Privathaftpflicht calculator and its tariff search pages functionality
     When    User clicks on the button labeled 'TarifDetails'
     Then    User should see tariff details sections: 'Weitere Leistungen', 'Allgemein','Tätigkeiten und Hobbys','Miete & Immobilien' and 'Dokumente'
     Then    User should see the 'ZUM ONLINE-ANTRAG' button
+    Then    User should be able to see two 'ZUM ONLINE-ANTRAN' buttons for the selected tarrif
+   
      

@@ -9,7 +9,7 @@
     "cy:npm-build": "npm install",
     "cy:yarn-build": "yarn install"
   },
-  "author": "",
+  "author": "Sijin Mathews",
   "license": "ISC",
   "devDependencies": {
     "@badeball/cypress-cucumber-preprocessor": "^16.0.3",

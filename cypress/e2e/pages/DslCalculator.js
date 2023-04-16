@@ -10,6 +10,5 @@ export const SELECTED_DAY = ".su-calendar-day";
 export const POSTAL_CODE = "#prestep_postcode";
 export const COMPARE_NOW_TEXT = "Jetzt vergleichen";
 export const COMPARE_NOW_BUTTON = ".next > .button";
-export const TARIFF_RESULT_ROUTE =
-  "/privathaftpflicht/vergleich/#/pli/results?";
+export const TARIFF_RESULT_URL = "/privathaftpflicht/vergleich/#/pli/results?";
 export const TARIFF_CARDS_LIST = "section > product-list > div product";
