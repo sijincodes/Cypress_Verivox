@@ -74,8 +74,8 @@ describe("Verify the DSL Calculator", () => {
         }
       });
       cy.get("@selected_tariff_price").then((price) => {
-        let newPrice = String(price).replace(".", ",");
-        cy.get(SELECTED_TARIFF_PRICE).should("include.text", newPrice);
+        let tariffPrice = String(price).replace(".", ",");
+        cy.get(SELECTED_TARIFF_PRICE).should("include.text", tariffPrice);
       });
       cy.get(TARIFF_DETAILS_BUTTON).click();
 
